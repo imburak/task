@@ -25,10 +25,26 @@ export class TaskService {
   async getProcessingStats() {
     return this.taskRepo
       .createQueryBuilder()
-      .select('status')
-      .addSelect('COUNT(*)', 'count')
-      .groupBy('status')
-      .getRawMany();
+      .select([
+        'COUNT(*) AS "totalTasks"',
+        `COUNT(*) FILTER (WHERE status = '${TaskStatus.PROCESSING}') AS "processing"`,
+        `COUNT(*) FILTER (WHERE status = '${TaskStatus.DONE}') AS "done"`,
+        `COUNT(*) FILTER (WHERE status = '${TaskStatus.FAILED}') AS "failed"`,
+        `COUNT(*) FILTER (WHERE retries > 0) AS "retriedTasks"`,
+        `SUM(retries) AS "totalRetries"`,
+        `TRUNC(AVG(retries), 1) AS "averageRetriesPerTask"`,
+      ])
+      .getRawOne()
+      .then((result) => ({
+        totalTasks: Number(result.totalTasks),
+        done: Number(result.done),
+        failed: Number(result.failed),
+        retries: {
+          retriedTasks: Number(result.retriedTasks),
+          totalRetries: Number(result.totalRetries),
+          averageRetriesPerTask: Number(result.averageRetriesPerTask),
+        },
+      }));
   }
 
   async updateTask(
