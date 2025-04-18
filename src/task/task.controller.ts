@@ -1,22 +1,19 @@
 import { Controller, Get, Post } from '@nestjs/common';
 
-@Controller("tasks")
+@Controller('tasks')
 export class TaskController {
-
-  @Get("results")
+  @Get('results')
   getResults() {
-    return []
+    return [];
   }
 
-  @Get("stats")
+  @Get('stats')
   getStats() {
-
-    
-    return []
+    return [];
   }
 
   @Post()
   createTask() {
-    return {}
+    return {};
   }
 }
