@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 export enum TaskStatus {
-  DONE = 'done',
+  COMPLETED = 'completed',
   FAILED = 'failed',
   QUEUED = 'queued',
   PROCESSING = 'processing',

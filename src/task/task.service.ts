@@ -17,7 +17,7 @@ export class TaskService {
 
   getResults() {
     return this.taskRepo.find({
-      where: { status: In([TaskStatus.DONE, TaskStatus.FAILED]) },
+      where: { status: In([TaskStatus.COMPLETED, TaskStatus.FAILED]) },
       order: { createdAt: 'DESC' },
     });
   }
@@ -28,7 +28,7 @@ export class TaskService {
       .select([
         'COUNT(*) AS "totalTasks"',
         `COUNT(*) FILTER (WHERE status = '${TaskStatus.PROCESSING}') AS "processing"`,
-        `COUNT(*) FILTER (WHERE status = '${TaskStatus.DONE}') AS "done"`,
+        `COUNT(*) FILTER (WHERE status = '${TaskStatus.COMPLETED}') AS "completed"`,
         `COUNT(*) FILTER (WHERE status = '${TaskStatus.FAILED}') AS "failed"`,
         `COUNT(*) FILTER (WHERE retries > 0) AS "retriedTasks"`,
         `SUM(retries) AS "totalRetries"`,
@@ -37,7 +37,7 @@ export class TaskService {
       .getRawOne()
       .then((result) => ({
         totalTasks: Number(result.totalTasks),
-        done: Number(result.done),
+        completedTasks: Number(result.completed),
         failed: Number(result.failed),
         retries: {
           retriedTasks: Number(result.retriedTasks),

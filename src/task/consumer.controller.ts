@@ -53,7 +53,9 @@ export class ConsumerController {
 
       if (this.shouldFail()) throw new Error('Simulated task failure');
 
-      await this.taskService.updateTask(data.id, { status: TaskStatus.DONE });
+      await this.taskService.updateTask(data.id, {
+        status: TaskStatus.COMPLETED,
+      });
       channel.ack(originalMsg);
       this.logger.log(`Task ${task.id} completed after ${retries} retires.`);
     } catch (error) {
