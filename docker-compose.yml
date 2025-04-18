@@ -4,8 +4,9 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 3000:3000
+      - ${PORT}:${PORT}
     restart: unless-stopped
+    env_file: ".env"
     depends_on:
       - rabbitmq
       - postgres
@@ -22,8 +23,9 @@ services:
   postgres:
     image: postgres
     ports:
-      - 5433:5432
+      - ${DATABASE_PORT}:${DATABASE_PORT}
     environment:
-      - POSTGRES_DB=tasks
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      PGPORT: ${DATABASE_PORT}
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
