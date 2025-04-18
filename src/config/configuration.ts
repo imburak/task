@@ -9,6 +9,7 @@ export default () => ({
     database: process.env.DATABASE_NAME || 'tasks',
   },
   rmq: {
+    concurrency: parseInt(process.env.RABBITMQ_CONCURRENCY || '1', 10),
     url: process.env.RABBITMQ_URL || 'amqp://rabbitmq:5672',
   },
 });

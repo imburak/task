@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { CONCURRENCY, TASK_QUEUE } from './config/constants';
+import { TASK_QUEUE } from './config/constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,13 +13,14 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   const rmqUrl = configService.getOrThrow<string>('rmq.url');
+  const concurrency = configService.getOrThrow<number>('rmq.concurrency');
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.RMQ,
     options: {
       urls: [rmqUrl],
       queue: TASK_QUEUE,
-      prefetchCount: CONCURRENCY,
+      prefetchCount: concurrency,
       noAck: false,
       queueOptions: {
         durable: false,
