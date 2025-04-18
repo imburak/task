@@ -12,6 +12,8 @@ This is a backend application built with **NestJS**, **PostgreSQL**, and **Rabbi
 cp .env.example .env
 ```
 
+> ⚙️ You can control how many tasks are processed concurrently using the `RABBITMQ_CONCURRENCY` value in the .env file.
+
 2. Start the services with docker
 
 ```bash
