@@ -8,4 +8,7 @@ export default () => ({
     password: process.env.DATABASE_PASSWORD || 'postgres',
     database: process.env.DATABASE_NAME || 'tasks',
   },
+  rmq: {
+    url: process.env.RABBITMQ_URL || 'amqp://rabbitmq:5672',
+  },
 });

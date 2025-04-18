@@ -7,10 +7,17 @@ services:
       - 3000:3000
     restart: unless-stopped
     depends_on:
+      - rabbitmq
       - postgres
     volumes:
       - .:/app
       - /app/node_modules
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
 
   postgres:
     image: postgres
