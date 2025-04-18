@@ -23,12 +23,12 @@ export class TaskController {
 
   @Get('results')
   getResults() {
-    return [];
+    return this.taskService.getResults();
   }
 
   @Get('stats')
   getStats() {
-    return [];
+    return this.taskService.getProcessingStats();
   }
 
   @Post()
